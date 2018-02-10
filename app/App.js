@@ -5,20 +5,25 @@ import {
   Text,
   View
 } from 'react-native';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-  'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-  'Shake or press menu button for dev menu',
-});
+// import MapView from 'react-native-maps';
 
 export default class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    let ws = new WebSocket('ws://192.168.0.178:3000');
+    ws.onopen = () => {
+      // connection opened
+      console.log('connected my person');
+    };
+  }
+
+  componentWillMount() { }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>blahhhhh</Text>
+        <Text>blah</Text>
       </View>
     );
   }
@@ -26,19 +31,11 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
 });
