@@ -14,7 +14,7 @@ export default class PageSelectionScreen extends React.Component {
         <TouchableOpacity
           style={styles.button}
           onPress={() => this.props.navigation.navigate('ParentSelectScreen')}>
-          <Text>I am a Rider</Text>
+          <Text>I am a Parent</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
