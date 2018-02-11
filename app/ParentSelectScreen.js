@@ -24,7 +24,7 @@ export default class PageSelectionScreen extends React.Component {
     return (
       <View style={styles.container}>
         <TextInput
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          style={{ width: 100, height: 40, borderColor: 'gray', borderWidth: 1 }}
           onChangeText={(text) => this.setState({ text })}
           value={this.state.text}
         />
@@ -41,11 +41,17 @@ export default class PageSelectionScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    padding: 30,
   },
   button: {
-    width: 300,
-    margin: 10
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: 'gray',
+    width: 100,
+    margin: 10,
+    padding: 10,
+    alignItems: 'center',
   },
 });

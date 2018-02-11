@@ -10,15 +10,27 @@ import DriverScreen from './DriverScreen';
 const RootStack = StackNavigator({
   PageSelectionScreen: {
     screen: PageSelectionScreen,
+    navigationOptions: {
+      title: 'Select Page',
+    }
   },
   ParentSelectScreen: {
     screen: ParentSelectScreen,
+    navigationOptions: {
+      title: 'Select Bus',
+    }
   },
   ParentScreen: {
     screen: ParentScreen,
+    navigationOptions: {
+      title: 'Parent',
+    }
   },
   DriverScreen: {
     screen: DriverScreen,
+    navigationOptions: {
+      title: 'Driver',
+    }
   },
 });
 

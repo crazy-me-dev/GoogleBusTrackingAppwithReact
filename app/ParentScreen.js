@@ -109,7 +109,9 @@ export default class ParentScreen extends React.Component {
             coordinates={this.state.locations}
             strokeColor={'#4286f4'}
             strokeWidth={2} />
-          {this.state.current ? <Marker coordinate={this.state.current} /> : null}
+          {this.state.current ?
+            <Marker image={require('./images/bus.png')}
+              coordinate={this.state.current} /> : null}
         </MapView>
       </View>
     );

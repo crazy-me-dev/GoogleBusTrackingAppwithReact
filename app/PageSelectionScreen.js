@@ -29,11 +29,17 @@ export default class PageSelectionScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   button: {
-    width: 300,
-    margin: 10
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: 'gray',
+    width: 150,
+    margin: 10,
+    padding: 10,
+    alignItems: 'center',
   },
 });
