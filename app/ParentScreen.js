@@ -18,8 +18,8 @@ export default class ParentScreen extends React.Component {
       region: {
         latitude: 39.7684,
         longitude: -86.1581,
-        latitudeDelta: .5,
-        longitudeDelta: .5,
+        latitudeDelta: .3,
+        longitudeDelta: .3,
       },
       locations: [startLocation],
       current: startLocation,
@@ -31,29 +31,66 @@ export default class ParentScreen extends React.Component {
     this.websocket = new WebSocket('ws://192.168.0.178:3000');
     this.websocket.onopen = () => {
       // connection opened
+      console.log('connected to server');
+
       this.websocket.send(JSON.stringify({
         method: 'subscribe',
         locationID: '123',
       }));
-      console.log('connected to server');
     };
     this.websocket.onmessage = (message) => {
       let data = JSON.parse(message.data);
-      if (data.method === 'LatestLocation') {
-        const newLocations = this.state.locations.slice(0);
-        newLocations.push(data.payload);
-        this.setState({
-          region: {
-            latitude: data.payload.latitude,
-            longitude: data.payload.longitude,
-            latitudeDelta: .5,
-            longitudeDelta: .5,
-          },
-          locations: newLocations,
-          current: data.payload,
-        });
+      switch (data.method) {
+        case 'LatestLocation':
+          this.handleLatestLocationMessage(data);
+          break;
+        case 'SubscriptionSuccess':
+          this.handleSubscriptionSuccessMessage(data);
+          break;
+        case 'LocationHistory':
+          this.handleLocationHistoryMessage(data);
+          break;
+        default:
+          break;
       }
     };
+  }
+
+  handleLatestLocationMessage(data) {
+    const newLocations = this.state.locations.slice(0);
+    newLocations.push(data.payload);
+    this.setState({
+      region: {
+        latitude: data.payload.latitude,
+        longitude: data.payload.longitude,
+        latitudeDelta: .3,
+        longitudeDelta: .3,
+      },
+      locations: newLocations,
+      current: data.payload,
+    });
+  }
+
+  handleSubscriptionSuccessMessage(data) {
+    this.websocket.send(JSON.stringify({
+      method: 'getHistory',
+      locationID: '123',
+    }));
+  }
+
+  handleLocationHistoryMessage(data) {
+    const locations = data.payload;
+    const current = locations[locations.length - 1];
+    this.setState({
+      region: {
+        latitude: current.latitude,
+        longitude: current.longitude,
+        latitudeDelta: 0.3,
+        longitudeDelta: 0.3,
+      },
+      locations: locations,
+      current: current,
+    });
   }
 
   componentWillMount() { }
