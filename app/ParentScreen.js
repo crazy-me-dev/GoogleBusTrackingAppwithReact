@@ -13,7 +13,6 @@ export default class ParentScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    const startLocation = { latitude: 39.7684, longitude: -86.1581 };
     this.state = {
       region: {
         latitude: 39.7684,
@@ -21,8 +20,7 @@ export default class ParentScreen extends React.Component {
         latitudeDelta: .3,
         longitudeDelta: .3,
       },
-      locations: [startLocation],
-      current: startLocation,
+      locations: [],
     };
     this.setUpWebSocket();
   }
@@ -35,7 +33,7 @@ export default class ParentScreen extends React.Component {
 
       this.websocket.send(JSON.stringify({
         method: 'subscribe',
-        locationID: '123',
+        locationID: this.props.navigation.state.params.locationID,
       }));
     };
     this.websocket.onmessage = (message) => {
@@ -74,7 +72,7 @@ export default class ParentScreen extends React.Component {
   handleSubscriptionSuccessMessage(data) {
     this.websocket.send(JSON.stringify({
       method: 'getHistory',
-      locationID: '123',
+      locationID: this.props.navigation.state.params.locationID,
     }));
   }
 
@@ -111,7 +109,7 @@ export default class ParentScreen extends React.Component {
             coordinates={this.state.locations}
             strokeColor={'#4286f4'}
             strokeWidth={2} />
-          <Marker coordinate={this.state.current} />
+          {this.state.current ? <Marker coordinate={this.state.current} /> : null}
         </MapView>
       </View>
     );

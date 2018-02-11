@@ -4,11 +4,15 @@ import { StackNavigator } from 'react-navigation';
 
 import ParentScreen from './ParentScreen';
 import PageSelectionScreen from './PageSelectionScreen';
+import ParentSelectScreen from './ParentSelectScreen';
 import DriverScreen from './DriverScreen';
 
 const RootStack = StackNavigator({
   PageSelectionScreen: {
     screen: PageSelectionScreen,
+  },
+  ParentSelectScreen: {
+    screen: ParentSelectScreen,
   },
   ParentScreen: {
     screen: ParentScreen,
