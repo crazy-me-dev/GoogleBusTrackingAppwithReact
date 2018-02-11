@@ -28,9 +28,6 @@ export default class DriverScreen extends React.Component {
         locationID: '123',
       }));
     };
-    // this.websocket.onmessage = (message) => {
-    //   console.log('received message from server', JSON.parse(message.data));
-    // };
   }
 
   componentDidMount() {
@@ -56,9 +53,11 @@ export default class DriverScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Latitude: {this.state.latitude}</Text>
-        <Text>Longitude: {this.state.longitude}</Text>
-        {this.state.error ? <Text>{this.state.error}</Text> : null}
+        {this.state.error ? <Text>{this.state.error}</Text> :
+          <View>
+            <Text>Latitude: {this.state.latitude}</Text>
+            <Text>Longitude: {this.state.longitude}</Text>
+          </View>}
       </View>
     );
   }

@@ -13,7 +13,6 @@ export default class ParentScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    const dataSource = new ListView.DataSource({ rowHasChanged: this.rowHasChanged });
     const startLocation = { latitude: 39.7684, longitude: -86.1581 };
     this.state = {
       region: {
@@ -22,10 +21,8 @@ export default class ParentScreen extends React.Component {
         latitudeDelta: .5,
         longitudeDelta: .5,
       },
-      dataSource,
       locations: [startLocation],
       current: startLocation,
-      locationRows: dataSource.cloneWithRows([startLocation])
     };
     this.setUpWebSocket();
   }
@@ -38,23 +35,22 @@ export default class ParentScreen extends React.Component {
         method: 'subscribe',
         locationID: '123',
       }));
-      console.log('connected my person');
+      console.log('connected to server');
     };
     this.websocket.onmessage = (message) => {
       let data = JSON.parse(message.data);
       if (data.method === 'LatestLocation') {
         const newLocations = this.state.locations.slice(0);
-        newLocations.push({ latitude: data.latitude, longitude: data.longitude });
+        newLocations.push(data.payload);
         this.setState({
           region: {
-            latitude: data.latitude,
-            longitude: data.longitude,
+            latitude: data.payload.latitude,
+            longitude: data.payload.longitude,
             latitudeDelta: .5,
             longitudeDelta: .5,
           },
           locations: newLocations,
-          current: { latitude: data.latitude, longitude: data.longitude },
-          locationRows: this.state.dataSource.cloneWithRows(newLocations)
+          current: data.payload,
         });
       }
     };
@@ -64,12 +60,6 @@ export default class ParentScreen extends React.Component {
 
   onRegionChange(region) {
     this.setState({ region });
-  }
-
-  rowHasChanged = (row1, row2) => row1 !== row2
-
-  renderRow(location) {
-    return <Text>Latitude: {location.latitude} Longitude: {location.longitude}</Text>
   }
 
   render() {
